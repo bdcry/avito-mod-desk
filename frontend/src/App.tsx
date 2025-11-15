@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Navigate, Route, Routes } from 'react-router-dom';
+import './App.css';
+import { AppBar, Container, Toolbar, Typography } from '@mui/material';
+import ItemPage from './components/item/ItemPage';
+import StatsPage from './components/stats/StatsPage';
+import ListPage from './components/list/ListPage';
+import NotFound from './components/not-found/NotFoud';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className='logo' alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AppBar>
+        <Toolbar>
+          <Typography variant="h5">Avito Mod Desk</Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Container sx={{ mt: 5, mb: 5 }}>
+        <Routes>
+          {/* Redirect from / to /list */}
+          <Route path="/" element={<Navigate to="/list" replace />} />
+
+          {/* Pages */}
+          <Route path="/list" element={<ListPage />} />
+          <Route path="/item/:id" element={<ItemPage />} />
+          <Route path="/stats" element={<StatsPage />} />
+
+          {/* 404 page */}
+          <Route path="*" element={<Navigate to="/not-found" replace />} />
+          <Route path="/not-found" element={<NotFound />} />
+        </Routes>
+      </Container>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
