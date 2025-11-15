@@ -15,6 +15,9 @@ const ListPage = (): JSX.Element => {
   const [totalAds, setTotalAds] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
   const handleChangeFilters = (newValue: ListFilters) => {
     setFilters(newValue);
     setPage(1);
@@ -89,6 +92,9 @@ const ListPage = (): JSX.Element => {
 
       const queryString = queryParts.join('&');
 
+      setIsLoading(true);
+      setError(null);
+
       fetch(`${API_URL}/ads?${queryString}`)
         .then((response) => {
           if (!response.ok) {
@@ -102,7 +108,13 @@ const ListPage = (): JSX.Element => {
           setTotalAds(data.pagination.totalItems);
           setTotalPages(data.pagination.totalPages);
         })
-        .catch((error) => console.error('Error fetching ads:', error));
+        .catch((error) => {
+          console.error('Error fetching ads:', error);
+          setError(error.message || 'Не удалось загрузить объявления.');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     };
 
     fetchData();
@@ -118,15 +130,34 @@ const ListPage = (): JSX.Element => {
         onChange={handleChangeFilters}
         onReset={handleResetFilters}
       />
-      <Box>
-        {ads.map((ad) => (
-          <AdCard key={ad.id} ad={ad} />
-        ))}
-      </Box>
-      <Pagination page={page} pageCount={totalPages} onChange={setPage} />
-      <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-        Всего объявлений: {totalAds}
-      </Typography>
+      {isLoading && (
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography>Загружаем...</Typography>
+        </Box>
+      )}
+      {!isLoading && error && (
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography color="error">Ошибка при загрузке объявлений: {error}</Typography>
+        </Box>
+      )}
+      {!isLoading && !error && ads.length > 0 && (
+        <>
+          <Box>
+            {ads.map((ad) => (
+              <AdCard key={ad.id} ad={ad} />
+            ))}
+          </Box>
+          <Pagination page={page} pageCount={totalPages} onChange={setPage} />
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            Всего объявлений: {totalAds}
+          </Typography>
+        </>
+      )}
+      {!isLoading && !error && ads.length === 0 && (
+        <Typography sx={{ mt: 2, textAlign: 'center' }}>
+          По выбранным фильтрам ничего не найдено
+        </Typography>
+      )}
     </Box>
   );
 };

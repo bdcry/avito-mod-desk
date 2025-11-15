@@ -10,6 +10,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  OutlinedInput,
+  Chip,
 } from '@mui/material';
 
 type TFiltersBarProps = {
@@ -77,6 +79,20 @@ const FiltersBar = ({ value, onChange, onReset }: TFiltersBarProps): JSX.Element
             size="small"
             value={value.statuses}
             onChange={(e) => handleFieldChange('statuses', e.target.value)}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((value) => (
+                  <>
+                    <Chip
+                      key={value}
+                      label={
+                        STATUS_OPTIONS.find((option) => option.value === value)?.label
+                      }
+                    />
+                  </>
+                ))}
+              </Box>
+            )}
           >
             {STATUS_OPTIONS.map((option) => (
               <MenuItem key={option.value} value={option.value}>
