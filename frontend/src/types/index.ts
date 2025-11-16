@@ -52,16 +52,3 @@ export type StatsSummary = {
   requestChangesPercentage: number;
   averageReviewTime: number;
 };
-
-export type ActivityData = {
-  date: string;
-  approved: number;
-  rejected: number;
-  requestChanges: number;
-};
-
-export type DecisionsData = {
-  approved: number;
-  rejected: number;
-  requestChanges: number;
-};
