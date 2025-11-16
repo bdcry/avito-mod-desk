@@ -1,4 +1,3 @@
-// Тип фильтров для списка
 export type ListFilters = {
   statuses: string[];
   category: string;
@@ -8,13 +7,16 @@ export type ListFilters = {
   sort: string;
 };
 
-export const defaultFilters: ListFilters = {
-  statuses: [],
-  category: '',
-  priceMin: '',
-  priceMax: '',
-  search: '',
-  sort: 'createdAt_desc',
+export type ModerationAction = 'approved' | 'rejected' | 'requestChanges';
+
+export type ModerationHistoryItem = {
+  id: number;
+  moderatorId: number;
+  moderatorName: string;
+  action: ModerationAction;
+  reason: string | null;
+  comment: string;
+  timestamp: string;
 };
 
 export type Ad = {
@@ -36,13 +38,6 @@ export type Ad = {
     totalAds: number;
     registeredAt: string;
   };
-  moderationHistory: {
-    id: number;
-    moderatorId: number;
-    moderatorName: string;
-    action: string;
-    reason: string;
-    comment: string;
-    timestamp: string;
-  };
+  characteristics: Record<string, string>;
+  moderationHistory: ModerationHistoryItem[];
 };

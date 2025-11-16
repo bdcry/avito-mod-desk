@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import type { JSX } from 'react';
 import type { Ad } from '../../types';
+import { useNavigate } from 'react-router-dom';
 
 type TAdCardProps = {
   ad: Ad;
@@ -51,6 +52,11 @@ const priorityBgColor = (priority: string): string => {
 };
 
 const AdCard = ({ ad }: TAdCardProps): JSX.Element => {
+  const navigate = useNavigate();
+
+  const handleOpenAd = (): void => {
+    navigate(`/item/${ad.id}`);
+  };
   return (
     <Card variant="outlined" sx={{ mb: 2 }}>
       <CardContent sx={{ display: 'flex', gap: 2 }}>
@@ -82,7 +88,9 @@ const AdCard = ({ ad }: TAdCardProps): JSX.Element => {
         </Box>
       </CardContent>
       <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button variant="contained">Открыть</Button>
+        <Button variant="contained" onClick={handleOpenAd}>
+          Открыть
+        </Button>
       </CardActions>
     </Card>
   );

@@ -1,10 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState, type JSX } from 'react';
-import { type Ad, defaultFilters, type ListFilters } from '../../types';
+import { type Ad, type ListFilters } from '../../types';
 import FiltersBar from './FiltersBar';
 import AdCard from './AdCard';
 import Pagination from './Pagination';
 import { API_URL } from '../../api/client';
+import { defaultFilters } from '../../utils/default';
 
 const ListPage = (): JSX.Element => {
   const [filters, setFilters] = useState<ListFilters>(defaultFilters);
