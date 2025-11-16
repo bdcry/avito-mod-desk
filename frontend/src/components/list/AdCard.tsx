@@ -30,24 +30,24 @@ const PRIORITY_LABELS: Record<string, string> = {
 const statusBgColor = (status: string): string => {
   switch (status) {
     case 'pending':
-      return 'grey';
+      return '#0ea5e9';
     case 'approved':
-      return 'green';
+      return '#10b981';
     case 'rejected':
-      return 'red';
+      return '#ef4444';
     default:
-      return 'grey';
+      return '#6b7280';
   }
 };
 
 const priorityBgColor = (priority: string): string => {
   switch (priority) {
     case 'normal':
-      return 'blue';
+      return '#1e40af';
     case 'urgent':
-      return 'orange';
+      return '#f97316';
     default:
-      return 'blue';
+      return '#1e40af';
   }
 };
 
@@ -68,7 +68,7 @@ const AdCard = ({ ad }: TAdCardProps): JSX.Element => {
         />
         <Box sx={{ textAlign: 'left' }}>
           <Typography variant="h6">{ad.title}</Typography>
-          <Typography variant="subtitle1">Стоимость: {ad.price} р</Typography>
+          <Typography variant="subtitle1">Стоимость: ${ad.price}</Typography>
           <Chip size="small" label={ad.category} />
           <Chip
             size="small"
